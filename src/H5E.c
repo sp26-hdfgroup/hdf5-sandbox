@@ -450,7 +450,7 @@ H5Eget_num(hid_t error_stack_id)
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, (-1), "not an error stack ID");
     } /* end else */
 
-    /* Get the number of errors on stack */
+    /* Get the number of errors currently on the stack */
     if ((ret_value = H5E__get_num(estack)) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTGET, (-1), "can't get number of errors");
 
