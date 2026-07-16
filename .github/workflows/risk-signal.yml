@@ -7,10 +7,12 @@
 #   Merge to the sandbox default branch before the check runs on PRs.
 #
 # Posting mechanism: Option A — GitHub Actions in the sandbox repo using the
-# auto-provided GITHUB_TOKEN and the Checks API. No PAT, no PR comments.
+# auto-provided GITHUB_TOKEN and the Checks API. No PAT for check posting.
 #
 # Scoring source of truth: checks out sp26-hdfgroup/revamp-pipeline at a pinned
 # ref and imports gates.scorer.score() — scorer code is NOT copied into sandbox.
+# revamp-pipeline is private; checkout uses PIPELINE_READ_PAT (fine-grained PAT,
+# read-only on revamp-pipeline contents, stored as a secret in hdf5-sandbox).
 #
 # Trigger security: pull_request (same-repo branches). NOT pull_request_target.
 #
@@ -42,7 +44,7 @@ env:
   # scores with NO error or warning shown in the check output.
   # To update: push the new commit to revamp-pipeline, copy its full SHA here.
   # ─────────────────────────────────────────────────────────────────────────
-  REVAMP_PIPELINE_REF: d8de892569d6f2ab5822bd53537323bda12ee180
+  REVAMP_PIPELINE_REF: bd2c3e3660151979831f1ba1a0dbf7229cf3bf2a
 
 jobs:
   risk-signal:
@@ -61,6 +63,7 @@ jobs:
         with:
           repository: sp26-hdfgroup/revamp-pipeline
           ref: ${{ env.REVAMP_PIPELINE_REF }}
+          token: ${{ secrets.PIPELINE_READ_PAT }}
           path: revamp-pipeline
 
       - name: Set up Python
