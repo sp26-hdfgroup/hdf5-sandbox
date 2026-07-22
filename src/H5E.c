@@ -142,7 +142,7 @@ H5Eunregister_class(hid_t class_id)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not an error class");
 
     /*
-     * Decrement the counter on the dataset.  It will be freed if the count
+     * Decrement the counter on the error class.  It will be freed if the count
      * reaches zero.
      */
     if (H5I_dec_app_ref(class_id) < 0)
