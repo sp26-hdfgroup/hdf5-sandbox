@@ -44,7 +44,7 @@ env:
   # scores with NO error or warning shown in the check output.
   # To update: push the new commit to revamp-pipeline, copy its full SHA here.
   # ─────────────────────────────────────────────────────────────────────────
-  REVAMP_PIPELINE_REF: bd2c3e3660151979831f1ba1a0dbf7229cf3bf2a
+  REVAMP_PIPELINE_REF: b39f91fd2122a75a1651e4087552bf502cc53be4
 
 jobs:
   risk-signal:
