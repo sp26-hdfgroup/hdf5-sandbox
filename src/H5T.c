@@ -5144,7 +5144,7 @@ H5T_cmp(const H5T_t *dt1, const H5T_t *dt2, bool superset)
     assert(dt1);
     assert(dt2);
 
-    /* the easy case */
+    /* identical pointer means same type object — no field comparison needed */
     if (dt1 == dt2)
         HGOTO_DONE(0);
 
