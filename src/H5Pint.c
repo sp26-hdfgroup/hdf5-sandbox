@@ -5328,32 +5328,30 @@ H5P_close(H5P_genplist_t *plist)
     nseen = 0;
 
     /* Walk through the changed properties in the list */
-    if (H5SL_count(plist->props) > 0) {
-        curr_node = H5SL_first(plist->props);
-        while (curr_node != NULL) {
-            /* Get pointer to property from node */
-            tmp = (H5P_genprop_t *)H5SL_item(curr_node);
+    curr_node = H5SL_first(plist->props);
+    while (curr_node != NULL) {
+        /* Get pointer to property from node */
+        tmp = (H5P_genprop_t *)H5SL_item(curr_node);
 
-            /* Call property close callback, if it exists */
-            if (tmp->close) {
-                /* Prepare & restore library for user callback */
-                H5_BEFORE_USER_CB(FAIL)
-                    {
-                        /* Call user's callback */
-                        (tmp->close)(tmp->name, tmp->size, tmp->value);
-                    }
-                H5_AFTER_USER_CB(FAIL)
-            } /* end if */
+        /* Call property close callback, if it exists */
+        if (tmp->close) {
+            /* Prepare & restore library for user callback */
+            H5_BEFORE_USER_CB(FAIL)
+                {
+                    /* Call user's callback */
+                    (tmp->close)(tmp->name, tmp->size, tmp->value);
+                }
+            H5_AFTER_USER_CB(FAIL)
+        } /* end if */
 
-            /* Add property name to "seen" list */
-            if (H5SL_insert(seen, tmp->name, tmp->name) < 0)
-                HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into seen skip list");
-            nseen++;
+        /* Add property name to "seen" list */
+        if (H5SL_insert(seen, tmp->name, tmp->name) < 0)
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into seen skip list");
+        nseen++;
 
-            /* Get the next property node in the skip list */
-            curr_node = H5SL_next(curr_node);
-        } /* end while */
-    }     /* end if */
+        /* Get the next property node in the skip list */
+        curr_node = H5SL_next(curr_node);
+    } /* end while */
 
     /* Determine number of deleted items from property list */
     ndel = H5SL_count(plist->del);
